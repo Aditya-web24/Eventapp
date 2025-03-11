@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>EventEaseApp</RootNamespace>
+    <AssemblyName>EventEaseApp</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <Nullable>enable</Nullable>
+    <UseRazorCompileOnPublish>true</UseRazorCompileOnPublish>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\src\Components\ExampleComponent.razor" />
+    <ProjectReference Include="..\..\..\..\..\..\src\Pages\Index.razor" />
+    <ProjectReference Include="..\..\..\..\..\..\src\Pages\EventDetails.razor" />
+    <ProjectReference Include="..\..\..\..\..\..\src\Services\EventService.cs" />
+    <ProjectReference Include="..\..\..\..\..\..\src\App.razor" />
+    <ProjectReference Include="..\..\..\..\..\..\src\MainLayout.razor" />
+    <ProjectReference Include="..\..\..\..\..\..\src\Program.cs" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,295 @@
+@page "/"
+@inject EventService EventService
+@inject EventState EventState
+
+<h1>Welcome to EventEase</h1>
+<p>Your one-stop solution for managing events effortlessly.</p>
+<p>Explore upcoming events, manage your bookings, and connect with fellow attendees.</p>
+
+@if (EventState.Events == null)
+{
+    <p>Loading events...</p>
+}
+else
+{
+    <Virtualize Items="EventState.Events" Context="eventItem">
+        <EventCard Event="eventItem" />
+    </Virtualize>
+}
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await EventState.LoadEventsAsync(EventService);
+    }
+}
+
+<main>
+    <h1>Welcome to EventEase</h1>
+    <p>Your one-stop solution for managing events effortlessly.</p>
+    <p>Explore upcoming events, manage your bookings, and connect with fellow attendees.</p>
+</main>
+
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p role="alert">Sorry, there's nothing at this address.</p>
+            <a href="/" class="btn btn-primary">Go to Home</a>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+@inherits LayoutComponentBase
+@inject UserSession UserSession
+
+<div class="main-layout">
+    <header>
+        <h1>EventEase</h1>
+        <nav>
+            <ul>
+                <li><NavLink href="/">Home</NavLink></li>
+                <li><NavLink href="/eventdetails">Event Details</NavLink></li>
+                <li><NavLink href="/registration">Registration</NavLink></li>
+            </ul>
+        </nav>
+        <div class="user-session">
+            @if (UserSession.IsLoggedIn)
+            {
+                <p>Welcome, @UserSession.UserName!</p>
+                <button @onclick="UserSession.Logout">Logout</button>
+            }
+            else
+            {
+                <p>Please log in.</p>
+                <button @onclick="() => UserSession.Login('User')">Login</button>
+            }
+        </div>
+    </header>
+
+    <main>
+        @Body
+    </main>
+
+    <footer>
+        <p>&copy; 2023 EventEase. All rights reserved.</p>
+    </footer>
+</div>
+
+<style>
+    .main-layout {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    header {
+        background-color: #007bff;
+        color: white;
+        padding: 1rem;
+    }
+
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    nav ul li {
+        display: inline;
+        margin-right: 1rem;
+    }
+
+    main {
+        flex: 1;
+        padding: 1rem;
+    }
+
+    footer {
+        background-color: #f8f9fa;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .user-session {
+        margin-top: 1rem;
+    }
+</style>
+
+@page "/registration"
+@inject EventService EventService
+@inject UserSession UserSession
+danceTracker AttendanceTracker
+<EditForm Model="registrationModel" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator /> Registration</h3>
+    <div>
+        <label for="name">Name:</label>
+        <InputText id="name" @bind-Value="registrationModel.Name" />
+        <ValidationMessage For="@(() => registrationModel.Name)" />ry />
+    </div>ent">Event:</label>
+    <div>
+        <label for="email">Email:</label>strationModel.Name)" />t</option>
+        <InputText id="email" @bind-Value="registrationModel.Email" />
+        <ValidationMessage For="@(() => registrationModel.Name)" />>e)" />
+    </div>
+    <div>
+    <div>label for="event">Event:</label>l();
+        <label for="email">Email:</label>ue="registrationModel.EventId">l for="email">Email:</label>
+        <InputText id="email" @bind-Value="registrationModel.Email" />
+        <ValidationMessage For="@(() => registrationModel.Email)" />    protected override async Task OnInitializedAsync()
+    </div>  {
+                <option value="@eventItem.Id">@eventItem.Name</option>nts = await EventService.GetEventsAsync();tForm>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => registrationModel.EventId)" />        <InputSelect id="event" @bind-Value="registrationModel.EventId">
+    </div>t</option>
+    private RegistrationModel registrationModel = new RegistrationModel();    </div>
+    private List<Event> events;!");OnInitializedAsync()
+div>            <option value="@eventItem.Id">@eventItem.Name</option>cker.RegisterAttendance(UserSession.UserName, registrationModel.EventId);
+    protected override async Task OnInitializedAsync()
+    {   <InputText id="email" @bind-Value="registrationModel.Email" />
+        events = await EventService.GetEventsAsync();        <ValidationMessage For="@(() => registrationModel.Email)" />    public class RegistrationModel
+    }/div>
+
+    private async Task HandleValidSubmit()>; }
+    {tForm>
+        // Handle the form submission   <InputSelect id="event" @bind-Value="registrationModel.EventId">
+        Console.WriteLine("Form submitted successfully!");            <option value="">Select an event</option>   [EmailAddress]
+        await AttendanceTracker.RegisterAttendance(UserSession.UserName, registrationModel.EventId);m in events)        public string Email { get; set; }
+    }       {ist<Event> events;
+ption value="@eventItem.Id">@eventItem.Name</option>   [Required]    {
+    public class RegistrationModelOnInitializedAsync() EventId { get; set; }
+    {        </InputSelect>
+        [Required]nMessage For="@(() => registrationModel.EventId)" />
+        public string Name { get; set; }
+
+        [Required]    <button type="submit">Register</button>
+        [EmailAddress]
+        // Handle the form submission
+        Console.WriteLine("Form submitted successfully!");
+        await AttendanceTracker.RegisterAttendance(UserSession.UserName, registrationModel.EventId);er.Services.AddScoped<UserSession>(); }
+    };
+    {
+    public class RegistrationModel
+    {ing Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+        [Required]
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;   {
+using EventEaseApp.Services;
+    private void HandleValidSubmit()            setbuilder.RootComponents.Add<App>("#app");    {
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+builder.RootComponents.Add<App>("#app");
+        Console.WriteLine("Form submitted successfully!");eChanged();<UserSession>(); Events
+builder.Services.AddScoped<EventService>();AddScoped<AttendanceTracker>();
+builder.Services.AddScoped<EventState>();
+del
+await builder.Build().RunAsync();   {
+vices   events = value;
+namespace EventEaseApp.Services   public string Name { get; set; }rivate void NotifyStateChanged() => OnChange?.Invoke();otifyStateChanged();
+{    public class EventState            }
+    public class EventState        [Required]
+    {        {        private List<Event> events;
+        private List<Event> events;ublic string Email { get; set; }
+        }        public List<Event> Events
+        public List<Event> Eventsed]
+        {c int EventId { get; set; }
+            get => events;
+            setoft.AspNetCore.Components.Web;{
+            { Microsoft.AspNetCore.Components.WebAssembly.Hosting;           events = value;       Events = await eventService.GetEventsAsync();
+                events = value;rosoft.AspNetCore.Components.Web;using EventEaseApp.Services;                NotifyStateChanged();        }
+                NotifyStateChanged();using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+            }ateDefault(args);
+        }
+
+        public event Action OnChange;builder.RootComponents.Add<App>("#app");builder.Services.AddScoped<EventState>();        public string UserName { get; set; }
+
+        private void NotifyStateChanged() => OnChange?.Invoke();ervices.AddScoped<EventService>();await builder.Build().RunAsync();
+
+        public async Task LoadEventsAsync(EventService eventService) EventEaseApp.Services
+        { builder.Build().RunAsync();
+            Events = await eventService.GetEventsAsync();
+        }ces
+        public string UserName { get; set; } = true;
+        public bool IsLoggedIn { get; set; }serSession   NotifyStateChanged();
+
+        public event Action OnChange;t; }
+me { get; set; }In { get; set; }
+        public void Login(string userName)
+        {
+            UserName = userName;
+            IsLoggedIn = true;d Login(string userName)   NotifyStateChanged();
+            NotifyStateChanged();
+        }   {       UserName = userName;
+            UserName = userName;       NotifyStateChanged();            IsLoggedIn = true;        private void NotifyStateChanged() => OnChange?.Invoke();
+        public void Logout()   }
+        {       NotifyStateChanged();   }
+            UserName = null;
+            IsLoggedIn = false;OnChange;        public void Logout()    {
+            NotifyStateChanged();
+        }hanged() => OnChange?.Invoke();me = null;
+
+        private void NotifyStateChanged() => OnChange?.Invoke(); public async Task LoadEventsAsync(EventService eventService)
+    }; userName, EventId = eventId });
+        }       Events = await eventService.GetEventsAsync();            return Task.CompletedTask;
+    public class AttendanceTracker
+    {eChanged() => OnChange?.Invoke();
+        private readonly List<Attendance> attendances = new List<Attendance>();
+racker
+        public Task RegisterAttendance(string userName, int eventId)    {            return Task.FromResult(attendances);    public class AttendanceTracker    {
+        {ttendance> attendances = new List<Attendance>();
+            attendances.Add(new Attendance { UserName = userName, EventId = eventId });oggedIn { get; set; }
+            return Task.CompletedTask;
+        }
+            attendances.Add(new Attendance { UserName = userName, EventId = eventId });            public string UserName { get; set; }        {
+        public Task<List<Attendance>> GetAttendancesAsync()            return Task.CompletedTask;            public int EventId { get; set; }            attendances.Add(new Attendance { UserName = userName, EventId = eventId });        public void Login(string userName)
+        {        }        }            return Task.CompletedTask;
+            return Task.FromResult(attendances);
+        }
+   {blic Task<List<Attendance>> GetAttendancesAsync()   NotifyStateChanged();
+        public class Attendance            return Task.FromResult(attendances);using System;        {        }
+        {
+            public string UserName { get; set; }EventEaseApp.Services   }ublic void Logout()
+            public int EventId { get; set; }
+        }        {    public class UserSession        public class Attendance
+    }
+}        }
+Collections.Generic;
+        private void NotifyStateChanged() => OnChange?.Invoke();using System.Threading.Tasks;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+        private void NotifyStateChanged() => OnChange?.Invoke();        }            NotifyStateChanged();            IsLoggedIn = false;            UserName = null;        {        public void Logout()        }            NotifyStateChanged();            IsLoggedIn = true;            UserName = userName;        {
+}    }        }            public int EventId { get; set; }            public string UserName { get; set; }        {        public class Attendance        }            return Task.FromResult(attendances);        {        public Task<List<Attendance>> GetAttendancesAsync()        }            return Task.CompletedTask;            attendances.Add(new Attendance { UserName = userName, EventId = eventId });        {        public Task RegisterAttendance(string userName, int eventId)        private readonly List<Attendance> attendances = new List<Attendance>();    {        public string UserName { get; set; }
+        public bool IsLoggedIn { get; set; }
+
+        public event Action OnChange;
+
+        public void Login(string userName)
+        {
+            UserName = userName;
+            IsLoggedIn = true;
+            NotifyStateChanged();
+        }
+
+        public void Logout()
+        {
+            UserName = null;
+            IsLoggedIn = false;
+            NotifyStateChanged();
+        }
+
+        private void NotifyStateChanged() => OnChange?.Invoke();
+    }
+}

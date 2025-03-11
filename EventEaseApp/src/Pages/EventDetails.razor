@@ -1,0 +1,109 @@
+@page "/"
+@inject EventService EventService
+@inherits LayoutComponentBase
+
+<div class="main-layout">
+    <header>
+        <h1>EventEase</h1>
+        <nav>
+            <ul>
+                <li><NavLink href="/">Home</NavLink></li>
+                <li><NavLink href="/eventdetails">Event Details</NavLink></li>
+                <li><NavLink href="/registration">Registration</NavLink></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Welcome to EventEase</h1>
+        <p>Your one-stop solution for managing events effortlessly.</p>
+        <p>Explore upcoming events, manage your bookings, and connect with fellow attendees.</p>
+
+        @if (events == null)
+        {
+            <p>Loading events...</p>
+        }
+        else
+        {
+            <Virtualize Items="events" Context="eventItem">
+                <EventCard Event="eventItem" />
+            </Virtualize>
+        }
+    </main>
+
+    <footer>
+        <p>&copy; 2023 EventEase. All rights reserved.</p>
+    </footer>
+</div>
+
+@code {
+    private List<Event> events;
+
+    protected override async Task OnInitializedAsync()
+    {
+        events = await EventService.GetEventsAsync();
+    }
+
+    [Parameter]
+    public Event Event { get; set; }
+}
+
+@if (Event != null && !string.IsNullOrEmpty(Event.Name) && !string.IsNullOrEmpty(Event.Date) && !string.IsNullOrEmpty(Event.Location))
+{
+    <div class="event-card">
+        <h3>@Event.Name</h3>
+        <p><strong>Date:</strong> @Event.Date</p>
+        <p><strong>Location:</strong> @Event.Location</p>
+        <a href="/eventdetails/@Event.Id" class="btn btn-primary">View Details</a>
+    </div>
+}
+else
+{
+    <p>Invalid event data.</p>
+}
+
+<style>
+    .main-layout {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    header {
+        background-color: #007bff;
+        color: white;
+        padding: 1rem;
+    }
+
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    nav ul li {
+        display: inline;
+        margin-right: 1rem;
+    }
+
+    main {
+        flex: 1;
+        padding: 1rem;
+    }
+
+    footer {
+        background-color: #f8f9fa;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .event-card {
+        border: 1px solid #ddd;
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 5px;
+    }
+
+    .event-card h3 {
+        margin-top: 0;
+    }
+</style>

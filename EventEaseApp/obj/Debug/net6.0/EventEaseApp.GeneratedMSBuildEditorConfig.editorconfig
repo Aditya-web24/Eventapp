@@ -1,0 +1,45 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = EventEaseApp
+build_property.RootNamespace = EventEaseApp
+build_property.ProjectDir = D:\EventEaseApp\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\EventEaseApp
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 6.0
+build_property.EnableCodeStyleSeverity = 
+
+[D:/EventEaseApp/src/App.razor]
+build_metadata.AdditionalFiles.TargetPath = c3JjXEFwcC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/EventEaseApp/src/Components/ExampleComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = c3JjXENvbXBvbmVudHNcRXhhbXBsZUNvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/EventEaseApp/src/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = c3JjXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/EventEaseApp/src/Pages/EventDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = c3JjXFBhZ2VzXEV2ZW50RGV0YWlscy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/EventEaseApp/src/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = c3JjXFBhZ2VzXEluZGV4LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
